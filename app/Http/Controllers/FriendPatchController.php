@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class FriendPatchController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
+
+    public function __invoke(User $friend, Request $request)
+    {
+        $request->user()->pendingFriendsOf()->updateExistingPivot($friend, [
+            'accepted' => true
+        ]);
+
+        return back();
+    }
+}
